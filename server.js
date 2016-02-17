@@ -2,6 +2,7 @@ var express = require('express');
 var mysql = require('mysql');
 var expressHandlebars = require('express-handlebars');
 var bodyParser = require('body-parser');
+var app = express();//make sure everything it needs is defined here before it gets to where it's used
 
 var connection = mysql.createConnection({
   port: 3306,
@@ -10,9 +11,16 @@ var connection = mysql.createConnection({
   database: 'rcb_authentication_db'
 });
 
+app.post('/register', function (req, res){
+  var email = req.body.email;
+  var password = req.body.password;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+});
+
 var PORT = process.env.NODE_ENV || 3000;
 
-var app = express();
+
 
 app.engine('handlebars', expressHandlebars({
   defaultLayout: 'main'
@@ -32,7 +40,7 @@ connection.connect(function(err) {
 });
 
 app.get('/', function(req,res) {
-  res.render('home', {
+  res.render('index', {
     msg: req.query.msg
   });
 });
@@ -53,7 +61,7 @@ app.post('/register', function(req,res) {
           throw err;
         }
 
-        res.redirect('/success');
+        res.redirect('/secret');
       });
     } else {
       res.redirect('/?msg=Email Already Exists');
@@ -71,15 +79,15 @@ app.post('/login', function(req, res) {
     }
 
     if(results.length > 0) {
-      res.redirect('/success');
+      res.redirect('/secret');
     } else {
       res.redirect('/?msg=Invalid login');
     }
   });
 });
 
-app.get('/success', function(req,res) {
-  res.send('SUCCESS PAGE!');
+app.get('/secret', function(req,res) {
+  res.render('secret'); // changed it to render so it's not exposed
 });
 
 app.listen(PORT, function() {

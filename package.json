@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Marcode777/classignmenttues21616/issues"
   },
-  "homepage": "https://github.com/Marcode777/classignmenttues21616#readme"
+  "homepage": "https://github.com/Marcode777/classignmenttues21616#readme",
+  "dependencies": {
+    "express-handlebars": "^3.0.0"
+  }
 }
